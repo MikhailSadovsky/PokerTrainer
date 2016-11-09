@@ -6,55 +6,93 @@
 
 <html>
 <head>
-    <link href="<c:url value="/resources/css/united.css"/>" rel="stylesheet" type="text/css">
-    <script src="<c:url value="/resources/scripts/jquery-2.1.1.min.js"/>" type="text/javascript"></script>
-    <script src="<c:url value="/resources/scripts/bootstrap.js"/>" type="text/javascript"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Welcome</title>
+<link href="<c:url value="/resources/css/united.css"/>" rel="stylesheet"
+	type="text/css">
+<script src="<c:url value="/resources/scripts/jquery-2.1.1.min.js"/>"
+	type="text/javascript"></script>
+<script src="<c:url value="/resources/scripts/bootstrap.js"/>"
+	type="text/javascript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Welcome</title>
 </head>
 
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-responsive-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
 
-        </div>
-        <div class="navbar-collapse collapse navbar-responsive-collapse">
+			</div>
+			<div class="navbar-collapse collapse navbar-responsive-collapse">
 
-            <ul class="nav navbar-nav navbar-right">
-                <li> <a href="${pageContext.request.contextPath}/" title="Home">Back</a></li>
-                <c:if test="${currentuser == null}">
-                    <li><a href="${pageContext.request.contextPath}/login" title ="LogIn" id="LoginPopup">Login</a></li>
-                    <li><a href="${pageContext.request.contextPath}/registration" title="Registration">Register</a></li>
-                </c:if>
-                <c:if test="${currentuser != null && !isAdmin}">
-                    <li><a href="${pageContext.request.contextPath}/" title ="User" >${currentuser}</a></li>
-                </c:if>
-                <c:if test="${currentuser != null && isAdmin}">
-                    <li><a href="${pageContext.request.contextPath}/admin" title ="User" >${currentuser}</a></li>
-                </c:if>
-                <c:if test="${currentuser != null}">
-                    <li><a href="${pageContext.request.contextPath}/logout" title ="User" >Logout</a></li>
-                </c:if>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="container body-content">
-    <div class="jumbotron">
-        <h1>Poker Trainer</h1>
-    </div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="${pageContext.request.contextPath}/" title="Home">Back</a></li>
+					<c:if test="${currentuser == null}">
+						<li><a href="${pageContext.request.contextPath}/login"
+							title="LogIn" id="LoginPopup">Login</a></li>
+						<li><a href="${pageContext.request.contextPath}/registration"
+							title="Registration">Register</a></li>
+					</c:if>
+					<c:if test="${currentuser != null && !isAdmin}">
+						<li><a href="${pageContext.request.contextPath}/"
+							title="User">${currentuser}</a></li>
+					</c:if>
+					<c:if test="${currentuser != null && isAdmin}">
+						<li><a href="${pageContext.request.contextPath}/admin"
+							title="User">${currentuser}</a></li>
+					</c:if>
+					<c:if test="${currentuser != null}">
+						<li><a href="${pageContext.request.contextPath}/logout"
+							title="User">Logout</a></li>
+					</c:if>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container body-content">
+		<div class="jumbotron">
+			<h1>Poker Trainer</h1>
+		</div>
+		<!-- <form:form commandName="result" cssClass="form-horizontal">  -->
+			<c:if test="${result.questions != null}">
+				<table class="table table-striped table-hover">
+					<!-- column data -->
+					<tbody>
+						<c:forEach var="question" items="${result.questions}" varStatus="loop">
+							<tr>${loop.index+1}-${question.getText()}(1 correct answer)
+							</tr>
+							<br>
+							<c:forEach var="answer" items="${result.answers}">
+								<c:if
+									test="${answer.getQuestionId() == question.getQuestionId()}">
+									<tr>
 
-    <hr />
-    <footer>
-    </footer>
-</div>
-
+										<input type="radio" name="answer${loop.index+1}" unchecked />
+										${answer.getText()}
+									</tr>
+									<br>
+								</c:if>
+							</c:forEach>
+							<br>
+							<br>
+						</c:forEach>
+					</tbody>
+				</table>
+			</c:if>
+			<div class="form-actions">
+				<tr>
+					<td><input type="submit" value="Submit"
+						class="btn btn-primary"></td>
+				</tr>
+			</div>
+		<!-- </form:form>  -->
+		<hr />
+		<footer> </footer>
+	</div>
 
 </body>
 </html>

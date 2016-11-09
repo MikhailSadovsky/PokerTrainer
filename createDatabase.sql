@@ -5,7 +5,7 @@ drop table students;
 
 create table students (s_id int NOT NULL AUTO_INCREMENT, s_name VARCHAR(100), s_pass VARCHAR(100), lvl CHAR(1),PRIMARY KEY (s_id)); 
 create table questions (q_id int NOT NULL AUTO_INCREMENT, q_text VARCHAR(100), PRIMARY KEY (q_id));
-create table answers (a_id int NOT NULL AUTO_INCREMENT, q_id int, a_text VARCHAR(100), is_true CHAR(1), PRIMARY KEY (a_id),FOREIGN KEY  (q_id)REFERENCES questions(q_id));
+create table answers (a_id int NOT NULL AUTO_INCREMENT, q_id int, a_text VARCHAR(100), is_true BOOLEAN, PRIMARY KEY (a_id),FOREIGN KEY  (q_id)REFERENCES questions(q_id));
 create table results(r_id int NOT NULL AUTO_INCREMENT, s_id int, cor_ans int, lvl CHAR(1), PRIMARY KEY (r_id),  FOREIGN KEY  (s_id )REFERENCES students(s_id));
 
 
@@ -30,58 +30,58 @@ INSERT INTO results ( s_id, cor_ans, lvl) VALUES (8, 4, 'N');
 
 
 
-INSERT INTO questions (q_text) VALUES ( 'Что такое флэш?');
-INSERT INTO questions (q_text) VALUES ( 'Какие бывают блайнды?');
-INSERT INTO questions (q_text) VALUES ( 'Сколько карт выкладывают на флопе?');
-INSERT INTO questions (q_text) VALUES ( 'Что такое фулл-хаус?');
-INSERT INTO questions (q_text) VALUES ( 'Сколько карт на руке в техасском холдеме?');
-INSERT INTO questions (q_text) VALUES ( 'Что стоит делать если ты играешь на диллере, а все соперники прочекались?');
-INSERT INTO questions (q_text) VALUES ( 'Что такое тёрн?');
-INSERT INTO questions (q_text) VALUES ( 'Что такое ривер?');
-INSERT INTO questions (q_text) VALUES ( 'Что такое стрит-флэш?');
-INSERT INTO questions (q_text) VALUES ( 'Что такое йелоубой?');
+INSERT INTO questions (q_text) VALUES ( 'What is flash?');
+INSERT INTO questions (q_text) VALUES ( 'Which blinds exist?');
+INSERT INTO questions (q_text) VALUES ( 'How much cards possible in flop?');
+INSERT INTO questions (q_text) VALUES ( 'What is full-house?');
+INSERT INTO questions (q_text) VALUES ( 'How much cards on hands in texas holdem?');
+INSERT INTO questions (q_text) VALUES ( 'What do you need if you playing as diller and your opponents are checked?');
+INSERT INTO questions (q_text) VALUES ( 'What is turn?');
+INSERT INTO questions (q_text) VALUES ( 'What is river?');
+INSERT INTO questions (q_text) VALUES ( 'What is street-flash?');
+INSERT INTO questions (q_text) VALUES ( 'What is yellow boy?');
 
 
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (1, 'Пять карт одной масти', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (1, 'Позиция', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (1, 'Ситуация когда на столе выложено три карты', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (1, 'Пять карт подряд', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Сильный и слабый', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Кривой и хромой', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Большой и малый', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Черный и красный', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '5', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '4', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '3', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '2', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Пять карт подряд', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Пять карт одной масти', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Пять карт одной масти подряд', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Три карты одного достоинства и две карты другого', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (5, '5', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (5, '4', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (5, '3', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (5, '2', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (6, 'Рэйзить', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (6, 'Трибэтить', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (6, 'Чекать', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (6, 'Фолдить', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (7, 'На столе выложены 4 карты', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (7, 'Пять карт подряд', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (7, 'Пять карт одной масти', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (7, 'Три карты одного достоинства и две карты другого', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'На столе выложены 4 карты', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'Пять карт подряд', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'На столе выложены 5 карт', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'Три карты одного достоинства и две карты другого', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'На столе выложены 4 карты', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'Пять карт подряд', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'Пять карт одной масти подряд', 'Y');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'Три карты одного достоинства и две карты другого', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (10, 'На столе выложены 4 карты', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (10, 'Пять карт подряд', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (10, 'Пять карт одной масти подряд', 'N');
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (10, 'Херня какая-то', 'Y');
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (1, 'Five cards', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (1, 'Position', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (1, 'Three cards situation', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (1, 'Five cards one by one', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Strong and weak', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Krivoi i khramoi', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Big and small', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Black and red', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '5', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '4', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '3', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '2', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Five cards one by one', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Five cards with one mast', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Five cards with one mast one by one', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Three plus two', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (5, '5', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (5, '4', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (5, '3', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (5, '2', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (6, 'Raise', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (6, 'Bet', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (6, 'Check', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (6, 'Fold', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (7, '4 card on the table', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (7, 'Five one by one', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (7, 'Five', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (7, 'Three plus two', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, '4 cards on the tablse', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'five one by one', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'five cards', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'Three plus two', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, '4 cards on the table', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'five cards one by one', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'five cards one by one', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'Three plus two', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (10, '4 cards on the table', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (10, '5 cards one by one', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (10, '5 cards one by one with one mast', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (10, 'Anything else', true);
 
 
 

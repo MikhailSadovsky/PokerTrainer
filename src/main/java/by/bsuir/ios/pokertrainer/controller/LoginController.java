@@ -1,5 +1,8 @@
 package by.bsuir.ios.pokertrainer.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import by.bsuir.ios.pokertrainer.entity.ResultBean;
 import by.bsuir.ios.pokertrainer.entity.User;
 import by.bsuir.ios.pokertrainer.entity.UserModel;
 import by.bsuir.ios.pokertrainer.exception.DAOException;
@@ -43,9 +47,21 @@ public class LoginController extends BaseController {
 				addCookie(userDb.getName(), resp);
 			}
 			model.addAttribute("currentuser", userDb.getName());
-			// model.addAttribute("userResourceLinks",
-			// userResourceLinkDAO.getUserResourceLinkByUserId(userDb.getUserId()));
-			return "index";
+			List<Integer> resultIds = new ArrayList<Integer>();
+			resultIds.add(1);
+			resultIds.add(2);
+			resultIds.add(3);
+			List<String> strings = new ArrayList<String>();
+			strings.add("1");
+			strings.add("2");
+			strings.add("3");
+			ResultBean resultBean = new ResultBean();
+			resultBean.setAnswers(answerDAO.retrieveAll());
+			resultBean.setQuestions(questionDAO.retrieveAll());
+			resultBean.setAnswerId(resultIds);
+			model.addAttribute("result", resultBean);
+			model.addAttribute("strings", strings);
+			return "redirect:/";
 		} catch (DAOException exception) {
 			return "error";
 		}
@@ -66,9 +82,12 @@ public class LoginController extends BaseController {
 			user.setPassword(passwordEncoder.encode(person.getPassword()));
 			userDAO.create(user);
 			model.addAttribute("currentuser", user.getName());
-			// model.addAttribute("userResourceLinks",
-			// userResourceLinkDAO.getUserResourceLinkByUserId(user.getUserId()));
-			return "index";
+			ResultBean resultBean = new ResultBean();
+			resultBean.setAnswers(answerDAO.retrieveAll());
+			resultBean.setQuestions(questionDAO.retrieveAll());
+			resultBean.setAnswerId(new ArrayList<Integer>());
+			model.addAttribute("result", resultBean);
+			return "redirect:/";
 		} catch (DAOException exception) {
 			return "error";
 		}

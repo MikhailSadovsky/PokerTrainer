@@ -1,5 +1,8 @@
 package by.bsuir.ios.pokertrainer.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import by.bsuir.ios.pokertrainer.dao.AnswerDAO;
+import by.bsuir.ios.pokertrainer.dao.QuestionDAO;
 import by.bsuir.ios.pokertrainer.dao.UserDAO;
+import by.bsuir.ios.pokertrainer.entity.ResultBean;
 import by.bsuir.ios.pokertrainer.entity.User;
 import by.bsuir.ios.pokertrainer.exception.DAOException;
 
@@ -20,6 +26,12 @@ public class BaseController {
 
 	@Autowired
 	protected UserDAO userDAO;
+
+	@Autowired
+	protected QuestionDAO questionDAO;
+
+	@Autowired
+	protected AnswerDAO answerDAO;
 
 	protected void addCookie(String cookieName, HttpServletResponse resp) {
 		Cookie cookie = new Cookie("login", cookieName);
@@ -48,8 +60,15 @@ public class BaseController {
 				return "index";
 			}
 			model.addAttribute("currentuser", user.getName());
-			// model.addAttribute("userResourceLinks",
-			// userResourceLinkDAO.getUserResourceLinkByUserId(user.getUserId()));
+			ResultBean resultBean = new ResultBean();
+			resultBean.setAnswers(answerDAO.retrieveAll());
+			resultBean.setQuestions(questionDAO.retrieveAll());
+			List<Integer> resultIds = new ArrayList<Integer>();
+			resultIds.add(1);
+			resultIds.add(2);
+			resultIds.add(3);
+			resultBean.setAnswerId(resultIds);
+			model.addAttribute("result", resultBean);
 			return "index";
 		} catch (DAOException exception) {
 			return "error";
