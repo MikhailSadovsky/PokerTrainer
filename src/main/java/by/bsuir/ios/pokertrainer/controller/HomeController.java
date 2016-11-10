@@ -44,4 +44,14 @@ public class HomeController extends BaseController {
 		}
 		return "index";
 	}
+
+	@RequestMapping(value = "/learn", method = RequestMethod.GET)
+	public String learn(HttpServletRequest req, HttpServletResponse resp, Model model) throws DAOException {
+		User user = getCurrentUser(req);
+		if (user == null) {
+			return "index";
+		}
+		model.addAttribute("currentuser", user.getName());
+		return "learn";
+	}
 }

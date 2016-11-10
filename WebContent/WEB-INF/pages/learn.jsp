@@ -56,49 +56,9 @@
 	</div>
 	<div class="container body-content">
 		<div class="jumbotron">
-			<h1>Poker Trainer</h1>
+			<h1>Learn info</h1>
 		</div>
-		<c:if test="${level == 'A'}">
-			<h2>You are a poker profi!</h2>
-		</c:if>
-		<c:if test="${level == 'N'}">
-			<h2>You are a poker looser! Please try to improve your skills.</h2>
-			<h2><a href="${pageContext.request.contextPath}/learn">Learn new!</a></h2>
-		</c:if>
-		<form:form action="/PokerTrainer/" method="POST" cssClass="form-horizontal">
-			<c:if test="${result.questions != null}">
-				<table class="table table-striped table-hover">
-					<!-- column data -->
-					<tbody>
-						<c:forEach var="question" items="${result.questions}"
-							varStatus="loop">
-							<tr>${loop.index+1}-${question.getText()}
-							</tr>
-							<br>
-							<c:forEach var="answer" items="${result.answers}">
-								<c:if
-									test="${answer.getQuestionId() == question.getQuestionId()}">
-									<tr>
-									<input type="radio" name="answer_${loop.index+1}" value="${answer.answerId}" />${answer.getText()}
-									</tr>
-									<br>
-								</c:if>
-							</c:forEach>
-							<br>
-							<br>
-						</c:forEach>
-					</tbody>
-				</table>
-				<div class="form-actions">
-					<tr>
-						<td><input type="submit" value="Submit"
-							class="btn btn-primary"></td>
-					</tr>
-				</div>
-			</c:if>
-		</form:form>
-		<hr />
-		<footer> </footer>
+		
 	</div>
 
 </body>
