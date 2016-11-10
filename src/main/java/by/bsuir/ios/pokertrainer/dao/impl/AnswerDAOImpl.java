@@ -18,8 +18,14 @@ import by.bsuir.ios.pokertrainer.exception.DAOException;
 
 public class AnswerDAOImpl implements AnswerDAO {
 
-	private static final String SQL_SELECT_ANSWERS_BY_QUESTION_ID = "select a_id, a_text, isTrue from answers where q_id = ?";
+	private static final String SQL_SELECT_ANSWERS_BY_QUESTION_ID = "select a_id, a_text, is_true from answers where q_id = ?";
 	private static final String SQL_SELECT_ALL_ANSWERS = "select * from answers";
+	private static final String SQL_SELECT_CORRECT_ANSWER_COUNT = "select count(*) as count from answers where a_id in (";
+	private static final String SQL_SELECT_USER_LEVEL = "select case when cond.p1 * a.p1 / (cond.p1 * a.p1 + cond.p2 * a.p2) > cond.p2 * a.p2/ (cond.p1 * a.p1 + cond.p2 * a.p2)"
+			+ " then 'A' else 'N' end from (select a.c/b.c as p1, c.c/b.c as p2 from (select count(*) as c  from results) b,"
+			+ " (select count(*) as c from results where lvl = 'A') a, (select count(*) as c from results where lvl = 'N') c) a, (select a.c/d.c  as p1, c.c/b.c as p2 from (select count(*) as c  from results where lvl = 'N') b,"
+			+ " (select count(*) as c  from results where lvl = 'A') d, (select count(*) as c from results where cor_ans <= ? and lvl = 'A')"
+			+ " a, (select count(*) as c from results where cor_ans <= ? and lvl = 'N') c) cond";
 
 	@Autowired
 	private DataSource dataSource;
@@ -98,6 +104,48 @@ public class AnswerDAOImpl implements AnswerDAO {
 		}
 
 		return answers;
+	}
+
+	@Override
+	public Integer getCorrectAnswerCount(List<Integer> answerIds) throws DAOException {
+		int correctAnswerCount = 0;
+
+		StringBuilder builder = new StringBuilder(SQL_SELECT_CORRECT_ANSWER_COUNT);
+		for (Integer integer : answerIds) {
+			builder.append(integer + ",");
+		}
+		builder.setLength(builder.length() - 1);
+		builder.append(") and is_true=true");
+		try (Connection con = dataSource.getConnection();
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(builder.toString());) {
+			while (rs.next()) {
+				correctAnswerCount = rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Error while retrieve user from db.", e);
+		}
+		return correctAnswerCount;
+	}
+
+	@Override
+	public String getLevel(int correctAnswerCount) throws DAOException {
+		String level = null;
+
+		try (Connection con = dataSource.getConnection();
+				PreparedStatement ps = con.prepareStatement(SQL_SELECT_USER_LEVEL);) {
+			ps.setInt(1, correctAnswerCount);
+			ps.setInt(2, correctAnswerCount);
+			try (ResultSet rs = ps.executeQuery();) {
+				while (rs.next()) {
+					level = rs.getString(1);
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Error while retrive list of answers from db.", e);
+		}
+
+		return level;
 	}
 
 }

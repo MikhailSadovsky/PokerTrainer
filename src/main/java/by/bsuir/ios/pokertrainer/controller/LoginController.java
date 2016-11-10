@@ -1,7 +1,6 @@
 package by.bsuir.ios.pokertrainer.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,20 +46,11 @@ public class LoginController extends BaseController {
 				addCookie(userDb.getName(), resp);
 			}
 			model.addAttribute("currentuser", userDb.getName());
-			List<Integer> resultIds = new ArrayList<Integer>();
-			resultIds.add(1);
-			resultIds.add(2);
-			resultIds.add(3);
-			List<String> strings = new ArrayList<String>();
-			strings.add("1");
-			strings.add("2");
-			strings.add("3");
 			ResultBean resultBean = new ResultBean();
 			resultBean.setAnswers(answerDAO.retrieveAll());
 			resultBean.setQuestions(questionDAO.retrieveAll());
-			resultBean.setAnswerId(resultIds);
+			resultBean.setAnswerId(new ArrayList<Integer>());
 			model.addAttribute("result", resultBean);
-			model.addAttribute("strings", strings);
 			return "redirect:/";
 		} catch (DAOException exception) {
 			return "error";

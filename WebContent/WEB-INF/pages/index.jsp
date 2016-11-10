@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -57,22 +58,27 @@
 		<div class="jumbotron">
 			<h1>Poker Trainer</h1>
 		</div>
-		<!-- <form:form commandName="result" cssClass="form-horizontal">  -->
+		<c:if test="${level == 'A'}">
+			<h2>You are a poker profi!</h2>
+		</c:if>
+		<c:if test="${level == 'N'}">
+			<h2>You are a poker looser! Please try to improve your skills.</h2>
+		</c:if>
+		<form:form action="/PokerTrainer/" method="POST" cssClass="form-horizontal">
 			<c:if test="${result.questions != null}">
 				<table class="table table-striped table-hover">
 					<!-- column data -->
 					<tbody>
-						<c:forEach var="question" items="${result.questions}" varStatus="loop">
-							<tr>${loop.index+1}-${question.getText()}(1 correct answer)
+						<c:forEach var="question" items="${result.questions}"
+							varStatus="loop">
+							<tr>${loop.index+1}-${question.getText()}
 							</tr>
 							<br>
 							<c:forEach var="answer" items="${result.answers}">
 								<c:if
 									test="${answer.getQuestionId() == question.getQuestionId()}">
 									<tr>
-
-										<input type="radio" name="answer${loop.index+1}" unchecked />
-										${answer.getText()}
+									<input type="radio" name="answer_${loop.index+1}" value="${answer.answerId}" />${answer.getText()}
 									</tr>
 									<br>
 								</c:if>
@@ -82,14 +88,14 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<div class="form-actions">
+					<tr>
+						<td><input type="submit" value="Submit"
+							class="btn btn-primary"></td>
+					</tr>
+				</div>
 			</c:if>
-			<div class="form-actions">
-				<tr>
-					<td><input type="submit" value="Submit"
-						class="btn btn-primary"></td>
-				</tr>
-			</div>
-		<!-- </form:form>  -->
+		</form:form>
 		<hr />
 		<footer> </footer>
 	</div>

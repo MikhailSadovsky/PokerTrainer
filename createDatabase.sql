@@ -27,6 +27,15 @@ INSERT INTO results ( s_id, cor_ans, lvl) VALUES (5, 3, 'N');
 INSERT INTO results ( s_id, cor_ans, lvl) VALUES (6, 2, 'N');
 INSERT INTO results ( s_id, cor_ans, lvl) VALUES (7, 1, 'N');
 INSERT INTO results ( s_id, cor_ans, lvl) VALUES (8, 4, 'N');
+INSERT INTO results ( s_id, cor_ans, lvl) VALUES (1, 7, 'A');
+INSERT INTO results ( s_id, cor_ans, lvl) VALUES ( 2, 8, 'A');
+INSERT INTO results ( s_id, cor_ans, lvl) VALUES ( 3, 9, 'A');
+INSERT INTO results ( s_id, cor_ans, lvl) VALUES ( 4, 8, 'A');
+INSERT INTO results ( s_id, cor_ans, lvl) VALUES (5, 3, 'N');
+INSERT INTO results ( s_id, cor_ans, lvl) VALUES (6, 2, 'N');
+INSERT INTO results ( s_id, cor_ans, lvl) VALUES (7, 1, 'N');
+INSERT INTO results ( s_id, cor_ans, lvl) VALUES (8, 4, 'N');
+
 
 
 
@@ -50,9 +59,9 @@ INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Strong and weak', false
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Krivoi i khramoi', false);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Big and small', true);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (2, 'Black and red', false);
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '5', true);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '5', false);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '4', false);
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '3', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '3', true);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (3, '2', false);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Five cards one by one', false);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (4, 'Five cards with one mast', false);
@@ -75,7 +84,7 @@ INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'five one by one', false
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'five cards', true);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (8, 'Three plus two', false);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, '4 cards on the table', false);
-INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'five cards one by one', false);
+INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'five cards', false);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'five cards one by one', true);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (9, 'Three plus two', false);
 INSERT INTO answers ( q_id, a_text, is_true) VALUES (10, '4 cards on the table', false);
@@ -101,7 +110,11 @@ select a.c/d.c  as p1, c.c/b.c as p2 from
 (select count(*) as c from results where cor_ans < 5 and lvl = 'N') c;
 
 --готовый скрипт апостериорной веро€тности(вместо 8 можно передавать параметр и смотреть как измен€ютс€ результаты классификации)
-select cond.p1 * a.p1 / (cond.p1 * a.p1 + cond.p2 * a.p2) as p1, cond.p2 * a.p2/ (cond.p1 * a.p1 + cond.p2 * a.p2) as p2 from
+
+select 
+case when
+cond.p1 * a.p1 / (cond.p1 * a.p1 + cond.p2 * a.p2) > cond.p2 * a.p2/ (cond.p1 * a.p1 + cond.p2 * a.p2) 
+then 'A' else 'N' end from
 (select a.c/b.c as p1, c.c/b.c as p2 from
 (select count(*) as c  from results) b,
 (select count(*) as c from results where lvl = 'A') a, 
@@ -109,6 +122,6 @@ select cond.p1 * a.p1 / (cond.p1 * a.p1 + cond.p2 * a.p2) as p1, cond.p2 * a.p2/
 (select a.c/d.c  as p1, c.c/b.c as p2 from
 (select count(*) as c  from results where lvl = 'N') b,
 (select count(*) as c  from results where lvl = 'A') d,
-(select count(*) as c from results where cor_ans <= 8 and lvl = 'A') a, 
-(select count(*) as c from results where cor_ans <= 8 and lvl = 'N') c) cond
+(select count(*) as c from results where cor_ans <= 10 and lvl = 'A') a, 
+(select count(*) as c from results where cor_ans <= 10 and lvl = 'N') c) cond
 ;
